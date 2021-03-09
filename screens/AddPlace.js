@@ -8,14 +8,16 @@ import {
   Button,
 } from "react-native";
 import { useDispatch } from "react-redux";
+
 import Colors from "../constants/Colors";
+import ImageSelector from "../components/ImageSelector";
 
 import * as placesActions from "../store/actions/places";
 
 const AddPlace = (props) => {
-  const dispatch = useDispatch();
-
   const [title, setTitle] = useState("");
+
+  const dispatch = useDispatch();
 
   const titleChangeHandler = (text) => {
     setTitle(text);
@@ -35,6 +37,7 @@ const AddPlace = (props) => {
           onChangeText={titleChangeHandler}
           value={title}
         />
+        <ImageSelector />
         <Button
           title="Save Place"
           color={Colors.primary}
@@ -65,5 +68,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 4,
     paddingHorizontal: 2,
+  },
+  buttonContainer: {
+    marginTop: 15,
   },
 });

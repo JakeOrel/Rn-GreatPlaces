@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, Platform } from "react-native";
-import { HeaderTitle } from "react-navigation-stack";
+import { StyleSheet, FlatList, Platform } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector } from "react-redux";
 
@@ -14,7 +13,19 @@ const PlacesOverviewScreen = (props) => {
     <FlatList
       data={places}
       keyExtractor={(item) => item.id}
-      renderItem={(itemData) => <PlaceItem title={itemData.item.title} />}
+      renderItem={(itemData) => (
+        <PlaceItem
+          title={itemData.item.title}
+          image={null}
+          address={null}
+          onSelect={() => {
+            props.navigation.navigate("PlaceDetails", {
+              placeTitle: itemData.item.title,
+              placeId: itemData.item.id,
+            });
+          }}
+        />
+      )}
     />
   );
 };

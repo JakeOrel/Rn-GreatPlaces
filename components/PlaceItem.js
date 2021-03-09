@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import Card from "./Card";
 import Colors from "../constants/Colors";
@@ -7,13 +7,11 @@ import Colors from "../constants/Colors";
 const PlaceItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onSelect} style={styles.placeItem}>
-      <Card>
-        <Image style={styles.Image} source={{ uri: props.image }} />
-        <View style={styles.infoContainer}>
-          <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.address}>{props.address}</Text>
-        </View>
-      </Card>
+      <Image style={styles.image} source={{ uri: props.image }} />
+      <View style={styles.infoContainer}>
+        <Text style={styles.title}>{props.title}</Text>
+        <Text style={styles.address}>{props.address}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
