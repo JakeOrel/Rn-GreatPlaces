@@ -12,16 +12,23 @@ import MapView, { Marker } from "react-native-maps";
 import Colors from "../constants/Colors";
 
 const FullScreenMap = (props) => {
-  const [selectedLoc, setSelectedLoc] = useState();
+  const initalLoc = props.navigation.getParam("initialLoc");
+  const readOnly = props.navigation.getParam("readonly");
+
+  const [selectedLoc, setSelectedLoc] = useState(initalLoc);
 
   const mapRegion = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initalLoc ? initalLoc.lat : 37.78,
+    longitude: initalLoc ? initalLoc.lng : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
 
   const selectLocationHandler = (event) => {
+    if (readOnly) {
+      return;
+    }
+
     setSelectedLoc({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude,
@@ -70,6 +77,11 @@ const FullScreenMap = (props) => {
 
 FullScreenMap.navigationOptions = (navData) => {
   const saveFunc = navData.navigation.getParam("savedLocation");
+  const readOnly = navData.navigation.getParam("readonly");
+
+  if (readOnly) {
+    return {};
+  }
 
   return {
     headerRight: () => (

@@ -9,7 +9,10 @@ const ImageSelector = (props) => {
   const [pickedImage, setPickedImage] = useState();
 
   const getPerms = async () => {
-    const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    const result = await Permissions.askAsync(
+      Permissions.MEDIA_LIBRARY,
+      Permissions.CAMERA
+    );
 
     if (result.status !== "granted") {
       Alert.alert(
