@@ -12,6 +12,8 @@ import Colors from "../constants/Colors";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
+import MapPreview from "./MapPreview";
+
 const LocationPicker = (props) => {
   const [pickedLocation, setPickedLocation] = useState();
   const [isFetching, setIsFetching] = useState(false);
@@ -60,13 +62,15 @@ const LocationPicker = (props) => {
 
   return (
     <View style={styles.locPicker}>
-      <View style={styles.mapPrev}>
-        {isFetching ? (
-          <ActivityIndicator size="large" color={Colors.primary} />
-        ) : (
-          <Text>No Location Chosen yet</Text>
-        )}
-      </View>
+      <MapPreview style={styles.mapPrev} location={pickedLocation}>
+        <View style={styles.mapPrev}>
+          {isFetching ? (
+            <ActivityIndicator size="large" color={Colors.primary} />
+          ) : (
+            <Text>No Location Chosen yet</Text>
+          )}
+        </View>
+      </MapPreview>
       <Button
         title="Get my location"
         color={Colors.primary}
