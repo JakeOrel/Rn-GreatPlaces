@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,7 @@ import * as placesActions from "../store/actions/places";
 const AddPlace = (props) => {
   const [title, setTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState();
+  const [selectedLoc, setSelectedLoc] = useState();
 
   const dispatch = useDispatch();
 
@@ -26,13 +27,17 @@ const AddPlace = (props) => {
   };
 
   const savePlaceHandler = () => {
-    dispatch(placesActions.addPlace(title, selectedImage));
+    dispatch(placesActions.addPlace(title, selectedImage, selectedLoc));
     props.navigation.navigate("PlacesOverview");
   };
 
   const imageTakenHandler = (imagePath) => {
     setSelectedImage(imagePath);
   };
+
+  const locationPickedhandled = useCallback((loc) => {
+    setSelectedLoc(loc);
+  }, []);
 
   return (
     <ScrollView>
@@ -44,7 +49,10 @@ const AddPlace = (props) => {
           value={title}
         />
         <ImageSelector onImageTaken={imageTakenHandler} />
-        <LocationPicker navigation={props.navigation} />
+        <LocationPicker
+          navigation={props.navigation}
+          onLocationPicked={locationPickedhandled}
+        />
         <Button
           title="Save Place"
           color={Colors.primary}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,18 @@ import MapPreview from "./MapPreview";
 const LocationPicker = (props) => {
   const [pickedLocation, setPickedLocation] = useState();
   const [isFetching, setIsFetching] = useState(false);
+
+  const mapPickedLoc = props.navigation.getParam("pickedLocation");
+
+  const { onLocationPicked } = props;
+
+  useEffect(() => {
+    if (mapPickedLoc) {
+      setPickedLocation(mapPickedLoc);
+
+      props.onLocationPicked(mapPickedLoc);
+    }
+  }, [mapPickedLoc, onLocationPicked]);
 
   const getPerms = async () => {
     const result = await Permissions.askAsync(Permissions.LOCATION);
@@ -49,6 +61,10 @@ const LocationPicker = (props) => {
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
+      props.onLocationPicked({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
     } catch (err) {
       Alert.alert(
         "could not fetch location",
@@ -57,7 +73,6 @@ const LocationPicker = (props) => {
       );
     }
     setIsFetching(false);
-    // props.onImageTaken(image.uri);
   };
 
   const pickOnMapHandler = () => {

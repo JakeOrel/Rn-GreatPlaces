@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
+  Alert,
   Platform,
   StyleSheet,
   Text,
@@ -28,8 +29,16 @@ const FullScreenMap = (props) => {
   };
 
   const savePickedLocHandler = useCallback(() => {
-    props.navigation.goBack();
-  }, []);
+    if (!selectedLoc) {
+      Alert.alert(
+        "No Location Selected",
+        "Please select a location before saving",
+        [{ text: "okay" }]
+      );
+      return;
+    }
+    props.navigation.navigate("AddPlace", { pickedLocation: selectedLoc });
+  }, [selectedLoc]);
 
   useEffect(() => {
     props.navigation.setParams({
